@@ -29,6 +29,11 @@
       "name": "Catwomen",
       "alterEgo": "Selina Kyle",
       "id": 6
+    },
+    {
+      "name": "Aquaman",
+      "alterEgo": "Arthur Curry",
+      "id": 7
     }
   ],
   "friends": [
