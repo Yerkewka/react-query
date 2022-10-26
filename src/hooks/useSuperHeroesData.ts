@@ -1,10 +1,13 @@
 import axios from 'axios';
-import { useQuery } from 'react-query';
+import { useQuery, useMutation, useQueryClient } from 'react-query';
 
 import { ISuperHero } from '../models/super-hero';
 
 const fetchSuperHeroes = () =>
   axios.get<ISuperHero[]>('http://localhost:4000/superheroes');
+
+const addSuperHero = (hero: Omit<ISuperHero, 'id'>) =>
+  axios.post<ISuperHero>('http://localhost:4000/superheroes', hero);
 
 export const useSuperHeroesData = (
   onSuccess: (data: ISuperHero[]) => void,
@@ -26,5 +29,21 @@ export const useSuperHeroesData = (
 
     //   return superHeroNames;
     // },
+  });
+};
+
+export const useAddSuperHeroData = () => {
+  const queryClient = useQueryClient();
+
+  return useMutation(addSuperHero, {
+    onSuccess: (data) => {
+      // queryClient.invalidateQueries('super-heroes');
+      queryClient.setQueryData('super-heroes', (oldQueryData: any) => {
+        return {
+          ...oldQueryData,
+          data: [...oldQueryData.data, data.data],
+        };
+      });
+    },
   });
 };
