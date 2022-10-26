@@ -1,13 +1,15 @@
-import axios from 'axios';
+import { request } from '../utils/axios-utils';
 import { useQuery, useMutation, useQueryClient } from 'react-query';
 
 import { ISuperHero } from '../models/super-hero';
 
 const fetchSuperHeroes = () =>
-  axios.get<ISuperHero[]>('http://localhost:4000/superheroes');
+  // axios.get<ISuperHero[]>('http://localhost:4000/superheroes');
+  request<ISuperHero[]>({ url: '/superheroes' });
 
 const addSuperHero = (hero: Omit<ISuperHero, 'id'>) =>
-  axios.post<ISuperHero>('http://localhost:4000/superheroes', hero);
+  // axios.post<ISuperHero>('http://localhost:4000/superheroes', hero);
+  request<ISuperHero>({ url: '/superheroes', method: 'POST', data: hero });
 
 const CACHE_KEY = 'super-heroes';
 
